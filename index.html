@@ -297,21 +297,18 @@
   .process-step h3{margin-top:.6rem;font-size:1rem;font-family:var(--font-body);font-weight:600;}
   .process-step p{margin-top:.5rem;color:var(--steel);font-size:.88rem;}
 
-  /* ---------- recent work (asymmetric mosaic) ---------- */
-  .work-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:clamp(1rem,2vw,1.6rem);}
-  .work-item{grid-column:span 3;}
-  .work-item.feature{grid-column:span 4;}
-  .work-item.small{grid-column:span 2;}
+  /* ---------- recent work (clean uniform grid) ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.4rem,2.6vw,2.2rem);}
   @media (max-width:860px){
-    .work-grid{grid-template-columns:1fr 1fr;}
-    .work-item, .work-item.feature, .work-item.small{grid-column:span 1;}
-    .work-item.feature{grid-column:1 / -1;}
+    .work-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:520px){
+    .work-grid{grid-template-columns:1fr;}
   }
   .work-media{border:1px solid var(--line);overflow:hidden;aspect-ratio:4/3;}
-  .work-item.feature .work-media{aspect-ratio:16/10;}
   .work-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
   .work-item:hover .work-media img{transform:scale(1.04);}
-  .work-cap{margin-top:.75rem;font-size:.85rem;color:var(--steel);}
+  .work-cap{margin-top:.85rem;font-size:.85rem;color:var(--steel);}
 
   /* ---------- contact band ---------- */
   .contact-band{background:var(--panel);color:#F4F0E8;}
@@ -519,25 +516,29 @@
         <p>A look at decks, additions, and interiors completed by the Buxmont crew.</p>
       </div>
       <div class="work-grid reveal-stagger">
-        <div class="work-item feature reveal" style="--i:0">
+        <div class="work-item reveal" style="--i:0">
           <div class="work-media"><img src="images/gal-garage.jpg" alt="Detached garage and bonus suite with glass doors" loading="lazy" /></div>
           <p class="work-cap">Detached garage &amp; bonus suite</p>
         </div>
-        <div class="work-item small reveal" style="--i:1">
+        <div class="work-item reveal" style="--i:1">
           <div class="work-media"><img src="images/gal-deck2.jpg" alt="Composite deck with black railing" loading="lazy" /></div>
           <p class="work-cap">Composite deck, black rail</p>
         </div>
-        <div class="work-item small reveal" style="--i:2">
+        <div class="work-item reveal" style="--i:2">
+          <div class="work-media"><img src="images/gal-sunroom.jpg" alt="White gable-roofed sunroom addition exterior" loading="lazy" /></div>
+          <p class="work-cap">Sunroom addition</p>
+        </div>
+        <div class="work-item reveal" style="--i:3">
+          <div class="work-media"><img src="images/gal-duskpatio.jpg" alt="Paver walkway with landscape lighting at dusk" loading="lazy" /></div>
+          <p class="work-cap">Paver walkway &amp; landscape lighting</p>
+        </div>
+        <div class="work-item reveal" style="--i:4">
           <div class="work-media"><img src="images/gal-skylightbath.jpg" alt="Curbless walk-in shower with skylight" loading="lazy" /></div>
           <p class="work-cap">Curbless shower &amp; skylight</p>
         </div>
-        <div class="work-item reveal" style="--i:3">
+        <div class="work-item reveal" style="--i:5">
           <div class="work-media"><img src="images/gal-falldeck.jpg" alt="Rear deck and covered porch addition" loading="lazy" /></div>
           <p class="work-cap">Rear deck &amp; covered porch</p>
-        </div>
-        <div class="work-item reveal" style="--i:4">
-          <div class="work-media"><img src="images/gal-duskpatio.jpg" alt="Paver walkway with landscape lighting at dusk" loading="lazy" /></div>
-          <p class="work-cap">Paver walkway &amp; landscape lighting</p>
         </div>
       </div>
     </div>
