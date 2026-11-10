@@ -357,6 +357,76 @@
   .contact-badges .social-row{display:flex;gap:.8rem;}
   .contact-badges .social-row img{height:26px;width:26px;border-radius:50%;}
 
+  /* ---------- estimate request form ---------- */
+  .estimate-wrap{display:grid;grid-template-columns:1fr 2fr;gap:clamp(2rem,5vw,4.5rem);align-items:start;}
+  @media (max-width:900px){.estimate-wrap{grid-template-columns:1fr;}}
+  .estimate-side .section-head{margin-bottom:1.6rem;}
+  .estimate-side ol{list-style:none;margin:0;padding:0;counter-reset:step;display:flex;flex-direction:column;border-top:1px solid var(--line);}
+  .estimate-side ol li{counter-increment:step;padding:1rem 0 1rem 2.4rem;border-bottom:1px solid var(--line);position:relative;color:var(--steel);font-size:1rem;}
+  .estimate-side ol li::before{content:counter(step);position:absolute;left:0;top:1rem;font-family:var(--font-display);font-weight:800;color:var(--brick);}
+  .estimate-side ol li strong{display:block;color:var(--ink);font-weight:600;}
+  .estimate-form{background:var(--surface);border:1px solid var(--line);padding:clamp(1.4rem,3.5vw,2.6rem);}
+  .form-group{border:0;margin:0 0 2rem;padding:0;min-width:0;}
+  .form-group legend{
+    font-family:var(--font-body);font-weight:600;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--brick);padding:0;margin-bottom:1.1rem;
+  }
+  .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.1rem 1.2rem;}
+  .form-grid .span-2{grid-column:1 / -1;}
+  .form-grid.cols-3{grid-template-columns:2fr 1.2fr 1fr;}
+  @media (max-width:640px){
+    .form-grid,.form-grid.cols-3{grid-template-columns:1fr;}
+  }
+  .field{display:flex;flex-direction:column;gap:.4rem;min-width:0;}
+  .field label,.field .field-label{font-size:.92rem;font-weight:500;color:var(--ink);}
+  .field .req{color:var(--brick);margin-left:.15em;}
+  .field .hint{font-size:.85rem;color:var(--steel);}
+  .field input[type=text],.field input[type=email],.field input[type=tel],.field select,.field textarea{
+    width:100%;font:inherit;font-size:1rem;color:var(--ink);
+    background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);
+    padding:.75rem .85rem;transition:border-color .2s ease, box-shadow .2s ease;
+    -webkit-appearance:none;appearance:none;
+  }
+  .field select{
+    background-image:linear-gradient(45deg,transparent 50%,var(--steel) 50%),linear-gradient(135deg,var(--steel) 50%,transparent 50%);
+    background-position:calc(100% - 1.15rem) 55%,calc(100% - .8rem) 55%;
+    background-size:.35rem .35rem;background-repeat:no-repeat;padding-right:2.2rem;
+  }
+  .field textarea{min-height:8.5rem;resize:vertical;line-height:1.5;}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--brick);box-shadow:0 0 0 3px color-mix(in srgb,var(--brick) 22%,transparent);}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#C0392B;}
+  .field .error-msg{display:none;font-size:.85rem;color:#C0392B;}
+  .field.invalid .error-msg{display:block;}
+  .choice-row{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .choice{position:relative;}
+  .choice input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer;}
+  .choice span{
+    display:inline-block;padding:.6rem 1rem;border:1px solid var(--line);background:var(--paper);
+    font-size:.95rem;color:var(--ink);transition:border-color .2s ease, background .2s ease, color .2s ease;
+  }
+  .choice input:checked + span{border-color:var(--brick);background:var(--brick);color:#F6F8FB;}
+  .choice input:focus-visible + span{outline:2px solid var(--brick);outline-offset:2px;}
+  .file-drop{
+    display:flex;flex-direction:column;align-items:flex-start;gap:.35rem;
+    border:1px dashed var(--line);background:var(--paper);padding:1.1rem 1rem;cursor:pointer;
+    transition:border-color .2s ease;
+  }
+  .file-drop:hover,.file-drop.drag{border-color:var(--brick);}
+  .file-drop input{font-size:.92rem;color:var(--steel);max-width:100%;}
+  .file-list{font-size:.88rem;color:var(--steel);}
+  .hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+  .form-footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 1.5rem;border-top:1px solid var(--line);padding-top:1.6rem;}
+  .form-footer p{font-size:.88rem;color:var(--steel);max-width:28rem;}
+  .form-status{margin-top:1.2rem;padding:1rem 1.1rem;border-left:3px solid var(--brick);background:var(--sand);font-size:.98rem;display:none;}
+  .form-status.show{display:block;}
+  .form-status.error{border-left-color:#C0392B;}
+  .estimate-done{display:none;text-align:left;}
+  .estimate-done:focus{outline:none;}
+  .estimate-done h3{font-size:var(--fs-h3);}
+  .estimate-done p{margin-top:.7rem;color:var(--steel);}
+  .estimate-form.sent form{display:none;}
+  .estimate-form.sent .estimate-done{display:block;}
+
   /* ---------- footer ---------- */
   .site-footer{background:var(--paper);border-top:1px solid var(--line);padding-block:3rem 2rem;}
   .footer-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2.5rem;padding-bottom:2.2rem;}
@@ -391,11 +461,11 @@
     <a href="index.html">Home</a>
     <a href="services.html">Services</a>
     <a href="contact.html" class="active">Contact</a>
-    <a class="btn btn-primary nav-drawer-cta" href="tel:+12159392519">Book Your Estimate</a>
+    <a class="btn btn-primary nav-drawer-cta" href="contact.html#estimate">Book Your Estimate</a>
   </nav>
   <div class="nav-right">
     <span class="nav-phone">215-939-2519</span>
-    <a class="btn btn-primary" href="tel:+12159392519">Book Your Estimate</a>
+    <a class="btn btn-primary" href="contact.html#estimate">Book Your Estimate</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -412,15 +482,15 @@
         <div class="section-head" style="margin-bottom:2rem;">
           <span class="eyebrow">Contact</span>
           <h1>Book your estimate today</h1>
-          <p class="hero-lead">Call, text, or email and we&rsquo;ll walk the site with you.</p>
+          <p class="hero-lead">Fill out the estimate form below, or call, text, or email and we&rsquo;ll walk the site with you.</p>
         </div>
         <div class="contact-grid">
           <div>
             <a class="contact-phone reveal in" href="tel:+12159392519">215-939-2519</a>
             <a class="contact-email reveal in" href="mailto:Jimmy@yeshuacm.com">Jimmy@yeshuacm.com</a>
             <div class="contact-actions">
-              <a class="btn btn-primary" href="tel:+12159392519">Call or Text Now</a>
-              <a class="btn btn-ghost on-dark" href="mailto:Jimmy@yeshuacm.com">Send an Email</a>
+              <a class="btn btn-primary" href="#estimate">Request an Estimate</a>
+              <a class="btn btn-ghost on-dark" href="tel:+12159392519">Call or Text Now</a>
             </div>
           </div>
           <div>
@@ -436,6 +506,181 @@
               </span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad" id="estimate" style="background:var(--sand);scroll-margin-top:6rem;">
+    <div class="container estimate-wrap">
+      <div class="estimate-side reveal">
+        <div class="section-head">
+          <span class="eyebrow">Request an Estimate</span>
+          <h2>Tell us about your project</h2>
+          <p>Share a few details and Jimmy will get back to you, usually within one business day.</p>
+        </div>
+        <ol>
+          <li><strong>Send your request</strong>The more detail you share, the better we can prepare.</li>
+          <li><strong>We reach out</strong>A quick call to talk through scope, timing, and budget.</li>
+          <li><strong>Site visit</strong>We walk the property with you and put together your estimate.</li>
+        </ol>
+      </div>
+
+      <div class="estimate-form reveal" id="estimateCard">
+        <form id="estimateForm" novalidate>
+          <!-- Spam trap: real visitors never see or fill this -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="f-website">Leave this empty</label>
+            <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <fieldset class="form-group">
+            <legend>Your Information</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-first">First name<span class="req">*</span></label>
+                <input type="text" id="f-first" name="first_name" autocomplete="given-name" required />
+                <span class="error-msg">Please enter your first name.</span>
+              </div>
+              <div class="field">
+                <label for="f-last">Last name<span class="req">*</span></label>
+                <input type="text" id="f-last" name="last_name" autocomplete="family-name" required />
+                <span class="error-msg">Please enter your last name.</span>
+              </div>
+              <div class="field">
+                <label for="f-phone">Phone<span class="req">*</span></label>
+                <input type="tel" id="f-phone" name="phone" autocomplete="tel" inputmode="tel" required />
+                <span class="error-msg">Please enter a phone number we can reach you at.</span>
+              </div>
+              <div class="field">
+                <label for="f-email">Email<span class="req">*</span></label>
+                <input type="email" id="f-email" name="email" autocomplete="email" required />
+                <span class="error-msg">Please enter a valid email address.</span>
+              </div>
+              <div class="field span-2">
+                <span class="field-label" id="contact-pref-label">Best way to reach you</span>
+                <div class="choice-row" role="radiogroup" aria-labelledby="contact-pref-label">
+                  <label class="choice"><input type="radio" name="contact_preference" value="Call" checked /><span>Call</span></label>
+                  <label class="choice"><input type="radio" name="contact_preference" value="Text" /><span>Text</span></label>
+                  <label class="choice"><input type="radio" name="contact_preference" value="Email" /><span>Email</span></label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <legend>Project Location</legend>
+            <div class="form-grid cols-3">
+              <div class="field span-2" style="grid-column:1 / -1;">
+                <label for="f-street">Street address<span class="req">*</span></label>
+                <input type="text" id="f-street" name="street" autocomplete="address-line1" required />
+                <span class="error-msg">Please enter the project address.</span>
+              </div>
+              <div class="field">
+                <label for="f-city">Town / City<span class="req">*</span></label>
+                <input type="text" id="f-city" name="city" autocomplete="address-level2" required />
+                <span class="error-msg">Please enter the town.</span>
+              </div>
+              <div class="field">
+                <label for="f-state">State</label>
+                <input type="text" id="f-state" name="state" autocomplete="address-level1" value="PA" />
+              </div>
+              <div class="field">
+                <label for="f-zip">ZIP<span class="req">*</span></label>
+                <input type="text" id="f-zip" name="zip" autocomplete="postal-code" inputmode="numeric" maxlength="10" required />
+                <span class="error-msg">Please enter a 5-digit ZIP.</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <legend>Project Details</legend>
+            <div class="form-grid">
+              <div class="field">
+                <label for="f-type">Project type<span class="req">*</span></label>
+                <select id="f-type" name="project_type" required>
+                  <option value="">Select one&hellip;</option>
+                  <option>Custom Home</option>
+                  <option>Addition</option>
+                  <option>Deck</option>
+                  <option>Patio / Hardscape</option>
+                  <option>Basement Finishing</option>
+                  <option>Bathroom Remodel</option>
+                  <option>Other</option>
+                </select>
+                <span class="error-msg">Please choose a project type.</span>
+              </div>
+              <div class="field">
+                <label for="f-property">Property type</label>
+                <select id="f-property" name="property_type">
+                  <option value="">Select one&hellip;</option>
+                  <option>Single-family home</option>
+                  <option>Townhouse</option>
+                  <option>Vacant lot / new build</option>
+                  <option>Commercial</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-budget">Estimated budget</label>
+                <select id="f-budget" name="budget">
+                  <option value="">Not sure yet</option>
+                  <option>Under $25,000</option>
+                  <option>$25,000 &ndash; $50,000</option>
+                  <option>$50,000 &ndash; $100,000</option>
+                  <option>$100,000 &ndash; $250,000</option>
+                  <option>$250,000+</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-timeline">When would you like to start?</label>
+                <select id="f-timeline" name="timeline">
+                  <option value="">Flexible</option>
+                  <option>As soon as possible</option>
+                  <option>Within 1&ndash;3 months</option>
+                  <option>Within 3&ndash;6 months</option>
+                  <option>6+ months out</option>
+                </select>
+              </div>
+              <div class="field span-2">
+                <label for="f-details">Tell us about the project<span class="req">*</span></label>
+                <textarea id="f-details" name="details" required placeholder="Size, materials, what you have in mind, anything we should know about the site&hellip;"></textarea>
+                <span class="error-msg">Please add a short description of the project.</span>
+              </div>
+              <div class="field span-2">
+                <span class="field-label">Photos or plans <span class="hint">(optional)</span></span>
+                <label class="file-drop" id="fileDrop" for="f-files">
+                  <span class="hint">Add photos of the space, sketches, or plans. Up to 10 files, 10&nbsp;MB each.</span>
+                  <input type="file" id="f-files" name="attachments" multiple accept="image/*,.pdf" />
+                </label>
+                <span class="file-list" id="fileList"></span>
+                <span class="error-msg" id="fileError">Each file must be under 10 MB, and no more than 10 files.</span>
+              </div>
+              <div class="field span-2">
+                <label for="f-source">How did you hear about us?</label>
+                <select id="f-source" name="referral_source">
+                  <option value="">Select one&hellip;</option>
+                  <option>Referral from a friend or neighbor</option>
+                  <option>Google search</option>
+                  <option>Facebook</option>
+                  <option>Instagram</option>
+                  <option>Saw a job sign</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-footer">
+            <p>By submitting, you agree to be contacted about your project. We never share your information.</p>
+            <button type="submit" class="btn btn-primary" id="estimateSubmit">Request My Estimate</button>
+          </div>
+          <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="estimate-done" id="estimateDone" tabindex="-1">
+          <span class="eyebrow">Request Received</span>
+          <h3>Thanks &mdash; we&rsquo;ll be in touch soon.</h3>
+          <p id="estimateDoneMsg">Jimmy will reach out within one business day. Need us sooner? Call or text <a href="tel:+12159392519" style="color:var(--brick);">215-939-2519</a>.</p>
         </div>
       </div>
     </div>
@@ -487,7 +732,7 @@
         <ul>
           <li><a href="tel:+12159392519">215-939-2519</a></li>
           <li><a href="mailto:Jimmy@yeshuacm.com">Jimmy@yeshuacm.com</a></li>
-          <li><a href="contact.html">Book an estimate</a></li>
+          <li><a href="contact.html#estimate">Request an estimate</a></li>
         </ul>
       </div>
     </div>
@@ -515,6 +760,117 @@
       toggle.classList.remove('open');
       toggle.setAttribute('aria-expanded','false');
     });
+  });
+
+  /* ---------- estimate request form ----------
+     FORM_ENDPOINT: set this to the URL that should receive submissions
+     (e.g. a Formspree / Netlify / Zapier / custom backend endpoint). It will
+     receive a multipart POST with every field plus any attached files.
+     While it is empty, submitting opens the visitor's email app with the
+     request pre-filled and addressed to FALLBACK_EMAIL. */
+  var FORM_ENDPOINT = '';
+  var FALLBACK_EMAIL = 'Jimmy@yeshuacm.com';
+  var MAX_FILES = 10, MAX_FILE_MB = 10;
+
+  var form = document.getElementById('estimateForm');
+  var card = document.getElementById('estimateCard');
+  var statusEl = document.getElementById('formStatus');
+  var submitBtn = document.getElementById('estimateSubmit');
+  var fileInput = document.getElementById('f-files');
+  var fileList = document.getElementById('fileList');
+  var fileDrop = document.getElementById('fileDrop');
+
+  function fieldOf(el){ return el.closest('.field'); }
+  function checkField(el){
+    var ok = true, v = (el.value || '').trim();
+    if(el.required && !v) ok = false;
+    else if(el.type === 'email' && v) ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    else if(el.type === 'tel' && v) ok = v.replace(/\D/g,'').length >= 10;
+    else if(el.name === 'zip' && v) ok = /^\d{5}(-\d{4})?$/.test(v);
+    var f = fieldOf(el); if(f) f.classList.toggle('invalid', !ok);
+    return ok;
+  }
+  function checkFiles(){
+    var files = Array.prototype.slice.call(fileInput.files || []);
+    var ok = files.length <= MAX_FILES && files.every(function(f){ return f.size <= MAX_FILE_MB*1024*1024; });
+    fieldOf(fileInput).classList.toggle('invalid', !ok);
+    fileList.textContent = files.length ? files.length + ' file' + (files.length>1?'s':'') + ' selected: ' + files.map(function(f){return f.name;}).join(', ') : '';
+    return ok;
+  }
+  var required = form.querySelectorAll('input[required], select[required], textarea[required], input[type=email], input[type=tel], input[name=zip]');
+  required.forEach(function(el){
+    el.addEventListener('blur', function(){ if(el.value) checkField(el); });
+    el.addEventListener('input', function(){ if(fieldOf(el).classList.contains('invalid')) checkField(el); });
+    el.addEventListener('change', function(){ if(fieldOf(el).classList.contains('invalid')) checkField(el); });
+  });
+  fileInput.addEventListener('change', checkFiles);
+  ['dragenter','dragover'].forEach(function(t){ fileDrop.addEventListener(t, function(){ fileDrop.classList.add('drag'); }); });
+  ['dragleave','drop'].forEach(function(t){ fileDrop.addEventListener(t, function(){ fileDrop.classList.remove('drag'); }); });
+
+  function showStatus(msg, isError){
+    statusEl.textContent = msg;
+    statusEl.className = 'form-status show' + (isError ? ' error' : '');
+  }
+  function showDone(msg){
+    if(msg) document.getElementById('estimateDoneMsg').innerHTML = msg;
+    card.classList.add('sent');
+    card.scrollIntoView({behavior:'smooth', block:'start'});
+    document.getElementById('estimateDone').focus({preventScroll:true});
+  }
+  function buildEmail(data){
+    var get = function(k){ return (data.get(k) || '').toString().trim() || '—'; };
+    var lines = [
+      'New estimate request',
+      '',
+      'Name: ' + get('first_name') + ' ' + get('last_name'),
+      'Phone: ' + get('phone'),
+      'Email: ' + get('email'),
+      'Preferred contact: ' + get('contact_preference'),
+      '',
+      'Project address: ' + get('street') + ', ' + get('city') + ', ' + get('state') + ' ' + get('zip'),
+      'Project type: ' + get('project_type'),
+      'Property type: ' + get('property_type'),
+      'Budget: ' + get('budget'),
+      'Timeline: ' + get('timeline'),
+      'Heard about us: ' + get('referral_source'),
+      '',
+      'Project details:',
+      get('details')
+    ];
+    if(fileInput.files.length) lines.push('', '(Please attach your ' + fileInput.files.length + ' photo/plan file(s) to this email before sending.)');
+    var subject = 'Estimate request – ' + get('project_type') + ' – ' + get('first_name') + ' ' + get('last_name');
+    return 'mailto:' + FALLBACK_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    statusEl.className = 'form-status';
+    if(form.website.value) return; // spam trap filled: silently ignore
+    var firstBad = null;
+    required.forEach(function(el){ if(!checkField(el) && !firstBad) firstBad = el; });
+    if(!checkFiles() && !firstBad) firstBad = fileInput;
+    if(firstBad){
+      showStatus('Please fix the highlighted fields and try again.', true);
+      firstBad.focus();
+      return;
+    }
+    var data = new FormData(form);
+    data.delete('website');
+
+    if(!FORM_ENDPOINT){
+      window.location.href = buildEmail(data);
+      showDone('Your email app should open with your request filled in &mdash; just press send. If it didn&rsquo;t open, call or text <a href="tel:+12159392519" style="color:var(--brick);">215-939-2519</a> or email <a href="mailto:' + FALLBACK_EMAIL + '" style="color:var(--brick);">' + FALLBACK_EMAIL + '</a>.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    fetch(FORM_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' } })
+      .then(function(res){ if(!res.ok) throw new Error(res.status); showDone(); })
+      .catch(function(){
+        showStatus('Sorry, something went wrong sending your request. Please try again, or call/text 215-939-2519.', true);
+      })
+      .then(function(){ submitBtn.disabled = false; submitBtn.textContent = 'Request My Estimate'; });
   });
 
   if('IntersectionObserver' in window){
