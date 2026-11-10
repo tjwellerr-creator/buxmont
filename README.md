@@ -1,6 +1,6 @@
-# Buxmont Contractors — Website Mockup
+# Yeshua Construction Management — Website Mockup
 
-A three-page website mockup for Buxmont Contractors, a Bucks/Montgomery County, PA
+A three-page website mockup for Yeshua Construction Management, a Bucks/Montgomery County, PA
 design-build residential contractor. Built from the brochure the client provided
 (services, process, capabilities, and photos are sourced directly from it).
 
