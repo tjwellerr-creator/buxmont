@@ -42,29 +42,24 @@ only), a restrained ink/paper/sand palette with a single brick-red accent, no
 gradients or rounded cards, and real project photography from the client's
 brochure.
 
-## Estimate form → Zapier
+## Estimate form → FormSubmit
 
-The estimate form on `contact.html` posts to a Zapier **Catch Hook**
-(Webhooks by Zapier, which requires a paid Zapier plan). The hook URL goes in
-`ZAPIER_HOOK_URL` at the top of `js/estimate-form.js`. While it is empty, the
-form falls back to opening the visitor's email app with the request filled in.
+The estimate form on `contact.html` emails each request to Jimmy through
+[FormSubmit](https://formsubmit.co), a free form-to-email service with no
+account. The address lives in `FORMSUBMIT_TO` at the top of
+`js/estimate-form.js`.
 
-Zap setup:
+- **Activation:** the first submission sends an activation email to
+  Jimmy@yeshuacm.com. Nothing is delivered until he clicks *Activate Form*.
+- **After activation:** FormSubmit's confirmation gives a random alias
+  string. Putting that alias in `FORMSUBMIT_TO` instead of the raw address
+  keeps the email out of the page source.
+- **Each email:** subject "Estimate request: <type> – <name>", a table of the
+  answers, and Reply-To set to the customer's email.
+- **Customer auto-reply:** the customer gets a short thank-you
+  (`_autoresponse` in the script).
+- **Fallback:** if `FORMSUBMIT_TO` is empty, the form opens the visitor's
+  email app with the request filled in.
 
-1. **Trigger:** Webhooks by Zapier → *Catch Hook*. Copy the URL into
-   `ZAPIER_HOOK_URL`, deploy, and send one test request from the site.
-2. **Action:** Email by Zapier → *Send Outbound Email* (or Gmail → *Send Email*)
-   - To: `Jimmy@yeshuacm.com`
-   - Subject: `subject`
-   - Body: `summary` (plus `submitted_at` if wanted)
-   - Reply To: `email`, so replying goes straight to the customer
-3. Optional extra steps: Google Sheets → *Create Spreadsheet Row* (lead log),
-   an auto-reply email to `email`, or an SMS alert.
-
-Fields sent: `first_name`, `last_name`, `full_name`, `phone`, `email`,
-`contact_preference`, `street`, `city`, `state`, `zip`, `project_address`,
-`project_type`, `property_type`, `budget`, `timeline`, `details`,
-`referral_source`, `subject`, `summary`, `submitted_at`, `page`.
-
-File uploads are not sent through Zapier; the form asks visitors to text or
-email photos and plans instead.
+File uploads are not sent; the form asks visitors to text or email photos
+and plans instead.
