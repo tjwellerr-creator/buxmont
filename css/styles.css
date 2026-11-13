@@ -458,3 +458,6 @@
   .pm-card h3{margin-top:.5rem;font-size:var(--fs-h3);}
   .pm-card .svc-desc{margin-top:.7rem;color:var(--steel);font-size:1.05rem;}
   .svc-row{scroll-margin-top:5rem;}
+  .photo-note{font-size:.95rem;color:var(--steel);background:var(--sand);border-left:3px solid var(--brick);padding:.9rem 1rem;}
+  .photo-note strong{color:var(--ink);font-weight:600;}
+  .photo-note a{color:var(--brick);text-decoration:underline;text-underline-offset:2px;}

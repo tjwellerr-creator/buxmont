@@ -1,22 +1,31 @@
-/* Estimate request form (contact.html) */
+/* Estimate request form (contact.html)
+
+   Submissions go to a Zapier "Catch Hook" (Webhooks by Zapier). The Zap then
+   emails the request to Jimmy, and can also log it, text him, etc.
+
+   ZAPIER_HOOK_URL: paste the Catch Hook URL from the Zap's trigger step here,
+   e.g. 'https://hooks.zapier.com/hooks/catch/1234567/abcdefg/'.
+   While it is empty, submitting opens the visitor's email app instead, with
+   the request filled in and addressed to FALLBACK_EMAIL.
+
+   Fields Zapier receives (all plain text):
+     first_name, last_name, full_name, phone, email, contact_preference,
+     street, city, state, zip, project_address, project_type, property_type,
+     budget, timeline, details, referral_source,
+     subject   - ready-made email subject line
+     summary   - the whole request as one formatted block for the email body
+     submitted_at, page */
 (function(){
-  /* ---------- estimate request form ----------
-     FORM_ENDPOINT: set this to the URL that should receive submissions
-     (e.g. a Formspree / Netlify / Zapier / custom backend endpoint). It will
-     receive a multipart POST with every field plus any attached files.
-     While it is empty, submitting opens the visitor's email app with the
-     request pre-filled and addressed to FALLBACK_EMAIL. */
-  var FORM_ENDPOINT = '';
+  var ZAPIER_HOOK_URL = '';
   var FALLBACK_EMAIL = 'Jimmy@yeshuacm.com';
-  var MAX_FILES = 10, MAX_FILE_MB = 10;
+  var PHONE_HTML = '<a href="tel:+12159392519" style="color:var(--brick);">215-939-2519</a>';
 
   var form = document.getElementById('estimateForm');
+  if(!form) return;
   var card = document.getElementById('estimateCard');
   var statusEl = document.getElementById('formStatus');
   var submitBtn = document.getElementById('estimateSubmit');
-  var fileInput = document.getElementById('f-files');
-  var fileList = document.getElementById('fileList');
-  var fileDrop = document.getElementById('fileDrop');
+  var submitLabel = submitBtn.textContent;
 
   function fieldOf(el){ return el.closest('.field'); }
   function checkField(el){
@@ -28,22 +37,12 @@
     var f = fieldOf(el); if(f) f.classList.toggle('invalid', !ok);
     return ok;
   }
-  function checkFiles(){
-    var files = Array.prototype.slice.call(fileInput.files || []);
-    var ok = files.length <= MAX_FILES && files.every(function(f){ return f.size <= MAX_FILE_MB*1024*1024; });
-    fieldOf(fileInput).classList.toggle('invalid', !ok);
-    fileList.textContent = files.length ? files.length + ' file' + (files.length>1?'s':'') + ' selected: ' + files.map(function(f){return f.name;}).join(', ') : '';
-    return ok;
-  }
-  var required = form.querySelectorAll('input[required], select[required], textarea[required], input[type=email], input[type=tel], input[name=zip]');
-  required.forEach(function(el){
+  var checked = form.querySelectorAll('input[required], select[required], textarea[required], input[type=email], input[type=tel], input[name=zip]');
+  checked.forEach(function(el){
     el.addEventListener('blur', function(){ if(el.value) checkField(el); });
     el.addEventListener('input', function(){ if(fieldOf(el).classList.contains('invalid')) checkField(el); });
     el.addEventListener('change', function(){ if(fieldOf(el).classList.contains('invalid')) checkField(el); });
   });
-  fileInput.addEventListener('change', checkFiles);
-  ['dragenter','dragover'].forEach(function(t){ fileDrop.addEventListener(t, function(){ fileDrop.classList.add('drag'); }); });
-  ['dragleave','drop'].forEach(function(t){ fileDrop.addEventListener(t, function(){ fileDrop.classList.remove('drag'); }); });
 
   function showStatus(msg, isError){
     statusEl.textContent = msg;
@@ -55,29 +54,38 @@
     card.scrollIntoView({behavior:'smooth', block:'start'});
     document.getElementById('estimateDone').focus({preventScroll:true});
   }
-  function buildEmail(data){
-    var get = function(k){ return (data.get(k) || '').toString().trim() || '—'; };
-    var lines = [
-      'New estimate request',
+
+  /* Collect the form into a flat object, plus the extra fields Zapier uses. */
+  function collect(){
+    var d = {};
+    new FormData(form).forEach(function(v, k){ if(k !== 'website') d[k] = String(v).trim(); });
+    var or = function(k){ return d[k] || '—'; };
+    d.full_name = [d.first_name, d.last_name].filter(Boolean).join(' ');
+    d.project_address = [d.street, d.city, [d.state, d.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+    d.subject = 'Estimate request: ' + or('project_type') + ' – ' + d.full_name;
+    d.summary = [
+      'Name: ' + d.full_name,
+      'Phone: ' + or('phone'),
+      'Email: ' + or('email'),
+      'Preferred contact: ' + or('contact_preference'),
       '',
-      'Name: ' + get('first_name') + ' ' + get('last_name'),
-      'Phone: ' + get('phone'),
-      'Email: ' + get('email'),
-      'Preferred contact: ' + get('contact_preference'),
-      '',
-      'Project address: ' + get('street') + ', ' + get('city') + ', ' + get('state') + ' ' + get('zip'),
-      'Project type: ' + get('project_type'),
-      'Property type: ' + get('property_type'),
-      'Budget: ' + get('budget'),
-      'Timeline: ' + get('timeline'),
-      'Heard about us: ' + get('referral_source'),
+      'Project address: ' + or('project_address'),
+      'Project type: ' + or('project_type'),
+      'Property type: ' + or('property_type'),
+      'Budget: ' + or('budget'),
+      'Timeline: ' + or('timeline'),
+      'Heard about us: ' + or('referral_source'),
       '',
       'Project details:',
-      get('details')
-    ];
-    if(fileInput.files.length) lines.push('', '(Please attach your ' + fileInput.files.length + ' photo/plan file(s) to this email before sending.)');
-    var subject = 'Estimate request – ' + get('project_type') + ' – ' + get('first_name') + ' ' + get('last_name');
-    return 'mailto:' + FALLBACK_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+      or('details')
+    ].join('\n');
+    d.submitted_at = new Date().toLocaleString('en-US', {timeZone:'America/New_York', dateStyle:'medium', timeStyle:'short'}) + ' ET';
+    d.page = location.href.split('#')[0];
+    return d;
+  }
+
+  function mailtoFor(d){
+    return 'mailto:' + FALLBACK_EMAIL + '?subject=' + encodeURIComponent(d.subject) + '&body=' + encodeURIComponent('New estimate request\n\n' + d.summary);
   }
 
   form.addEventListener('submit', function(e){
@@ -85,29 +93,33 @@
     statusEl.className = 'form-status';
     if(form.website.value) return; // spam trap filled: silently ignore
     var firstBad = null;
-    required.forEach(function(el){ if(!checkField(el) && !firstBad) firstBad = el; });
-    if(!checkFiles() && !firstBad) firstBad = fileInput;
+    checked.forEach(function(el){ if(!checkField(el) && !firstBad) firstBad = el; });
     if(firstBad){
       showStatus('Please fix the highlighted fields and try again.', true);
       firstBad.focus();
       return;
     }
-    var data = new FormData(form);
-    data.delete('website');
+    var d = collect();
 
-    if(!FORM_ENDPOINT){
-      window.location.href = buildEmail(data);
-      showDone('Your email app should open with your request filled in &mdash; just press send. If it didn&rsquo;t open, call or text <a href="tel:+12159392519" style="color:var(--brick);">215-939-2519</a> or email <a href="mailto:' + FALLBACK_EMAIL + '" style="color:var(--brick);">' + FALLBACK_EMAIL + '</a>.');
+    if(!ZAPIER_HOOK_URL){
+      window.location.href = mailtoFor(d);
+      showDone('Your email app should open with your request filled in &mdash; just press send. If it didn&rsquo;t open, call or text ' + PHONE_HTML + ' or email <a href="mailto:' + FALLBACK_EMAIL + '" style="color:var(--brick);">' + FALLBACK_EMAIL + '</a>.');
       return;
     }
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
-    fetch(FORM_ENDPOINT, { method:'POST', body:data, headers:{ 'Accept':'application/json' } })
-      .then(function(res){ if(!res.ok) throw new Error(res.status); showDone(); })
-      .catch(function(){
-        showStatus('Sorry, something went wrong sending your request. Please try again, or call/text 215-939-2519.', true);
+    // Form-encoded body keeps this a "simple" cross-origin request (no CORS preflight),
+    // and Zapier splits it into separate fields automatically.
+    fetch(ZAPIER_HOOK_URL, { method:'POST', body:new URLSearchParams(d) })
+      .then(function(res){
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        form.reset();
+        showDone();
       })
-      .then(function(){ submitBtn.disabled = false; submitBtn.textContent = 'Request My Estimate'; });
+      .catch(function(){
+        showStatus('Sorry, your request didn’t go through. Please try again, or call/text 215-939-2519.', true);
+      })
+      .then(function(){ submitBtn.disabled = false; submitBtn.textContent = submitLabel; });
   });
 })();
