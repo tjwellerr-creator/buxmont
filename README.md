@@ -1,46 +1,37 @@
 # Yeshua Drafting and Construction Management — Website
 
-A three-page website mockup for Yeshua Drafting and Construction Management, a Bucks/Montgomery County, PA
-design-build residential contractor. Built from the brochure the client provided
-(services, process, capabilities, and photos are sourced directly from it).
+Website for Yeshua Drafting and Construction Management, a Pennsylvania
+drafting, design-build, and construction management contractor
+(PA HIC #PA235939).
 
-Static site, no build step — deploys as-is on Vercel or any static host.
+Static site, no build step — deploys as-is on Vercel, Netlify, GitHub Pages,
+or any static host.
 
 ## Structure
 
 - `index.html` — Home
-- `services.html` — Services (full detail on all six offerings)
-- `contact.html` — Contact / book an estimate
-- `images/` — project photography (JPEG) and social icons (PNG)
-- `fonts/` — Roboto Slab, IBM Plex Sans, IBM Plex Mono (woff2)
+- `services.html` — Services (drafting, construction management, and six construction services)
+- `contact.html` — Contact and estimate request form
+- `privacy.html` — Privacy policy
+- `404.html` — Not-found page (uses root-relative links so it works at any path)
+- `css/styles.css` — all styles, shared by every page
+- `js/site.js` — nav menu, scroll effects (every page)
+- `js/estimate-form.js` — estimate form validation and sending
+- `images/`, `fonts/` — photos, logo, favicon, share image, web fonts
+- `robots.txt`, `sitemap.xml` — for search engines; both assume https://yeshuacm.com
 
-Pages link to each other with plain relative paths (`index.html`,
-`services.html`, `contact.html`), and images/fonts are real files referenced
-by relative path — nothing is base64-inlined, so assets are cached by the
-browser across all three pages instead of being re-downloaded per page.
+When CSS or JS changes, bump the `?v=` number on its link in each page so
+returning visitors get the new file.
 
-## Image quality note
+## Launch checklist (closing call)
 
-Every photo on the site was extracted directly from the client's brochure
-PDF — there was no other source available. The PDF's embedded images cap out
-at 648×1404px (and some as low as 324×702px), which is a hard ceiling: that
-resolution was baked into the file when it was made, and no amount of
-recompression recovers detail beyond it. Each image here was re-exported at
-the highest quality the source supports (minimal upscaling, quality-95
-progressive JPEG, no chroma subsampling) to get as close to "high quality" as
-that ceiling allows.
-
-If the client can provide the original, uncompressed photos (e.g. straight
-from the phone/camera that took them), swapping those in would be the single
-biggest visual upgrade available — originals are typically 3000px+ wide,
-several times the resolution of what's embedded in the brochure.
-
-## Design system
-
-Roboto Slab (headlines) + IBM Plex Sans (body) + IBM Plex Mono (phone number
-only), a restrained ink/paper/sand palette with a single brick-red accent, no
-gradients or rounded cards, and real project photography from the client's
-brochure.
+- [ ] Jimmy reviews all copy, especially the services lists and structural/engineering wording
+- [ ] Deploy to a host and point yeshuacm.com at it (keep the domain's MX/email records unchanged)
+- [ ] Confirm HTTPS works on yeshuacm.com and www.yeshuacm.com
+- [ ] Google Search Console: verify the domain and submit `sitemap.xml`
+- [ ] Activate the form: send a test request, Jimmy clicks *Activate Form* in the FormSubmit email
+- [ ] Send one more test and confirm it reaches Jimmy's inbox
+- [ ] Update the privacy policy's effective date to the launch date if it changed
 
 ## Estimate form → FormSubmit
 

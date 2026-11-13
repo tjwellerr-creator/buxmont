@@ -462,3 +462,13 @@
   .photo-note strong{color:var(--ink);font-weight:600;}
   .photo-note a{color:var(--brick);text-decoration:underline;text-underline-offset:2px;}
   .estimate-form{scroll-margin-top:6.5rem;}
+
+  /* ---------- legal pages ---------- */
+  .legal{max-width:46rem;}
+  .legal h1{font-size:var(--fs-h1-page);}
+  .legal-date{margin-top:.6rem;color:var(--steel);font-size:.95rem;}
+  .legal > p,.legal ul{margin-top:1rem;color:var(--ink);}
+  .legal h2{font-size:1.3rem;margin-top:2.4rem;}
+  .legal ul{padding-left:1.2rem;list-style:disc;display:flex;flex-direction:column;gap:.35rem;}
+  .legal a{color:var(--brick);text-decoration:underline;text-underline-offset:2px;}
+  .footer-bottom a:hover{color:var(--brick);}
