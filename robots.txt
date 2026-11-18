@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yeshuacm.com/sitemap.xml
+Sitemap: https://www.yeshuadraftingandconstruction.com/sitemap.xml

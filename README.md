@@ -22,7 +22,7 @@ or any static host.
 - `js/site.js` — nav menu, scroll effects (every page)
 - `js/estimate-form.js` — estimate form validation and sending
 - `images/`, `fonts/` — photos (pages use the `.webp` versions; the `.jpg` originals are kept, and `og-image.jpg` is the share image), logo, favicon, web fonts
-- `robots.txt`, `sitemap.xml` — for search engines; both assume https://yeshuacm.com
+- `robots.txt`, `sitemap.xml` — for search engines; both use https://www.yeshuadraftingandconstruction.com
 
 When CSS or JS changes, bump the `?v=` number on its link in each page so
 returning visitors get the new file.
@@ -30,8 +30,8 @@ returning visitors get the new file.
 ## Launch checklist (closing call)
 
 - [ ] Jimmy reviews all copy, especially the services lists and structural/engineering wording
-- [ ] Deploy to a host and point yeshuacm.com at it (keep the domain's MX/email records unchanged)
-- [ ] Confirm HTTPS works on yeshuacm.com and www.yeshuacm.com
+- [x] Deploy to Vercel at www.yeshuadraftingandconstruction.com (Jimmy's email stays on yeshuacm.com)
+- [ ] Confirm HTTPS works on yeshuadraftingandconstruction.com and www (the bare domain redirects to www)
 - [ ] Google Search Console: verify the domain and submit `sitemap.xml`
 - [ ] In Search Console, use URL Inspection → Request Indexing on the home page and the service pages
 - [ ] Set up a Google Business Profile as a service-area business (Philadelphia, Bucks, Montgomery, Delaware, Chester), hiding the mailing address
