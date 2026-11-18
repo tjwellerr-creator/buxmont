@@ -11,13 +11,17 @@ or any static host.
 
 - `index.html` — Home
 - `services.html` — Services (drafting, construction management, and six construction services)
+- One page per service, each with its own title, FAQ, and Service schema:
+  `custom-homes.html`, `home-additions.html`, `decks.html`,
+  `basement-finishing.html`, `paver-patios.html`, `bathroom-remodeling.html`,
+  `drafting-permit-drawings.html`, `construction-management.html`
 - `contact.html` — Contact and estimate request form
 - `privacy.html` — Privacy policy
 - `404.html` — Not-found page (uses root-relative links so it works at any path)
 - `css/styles.css` — all styles, shared by every page
 - `js/site.js` — nav menu, scroll effects (every page)
 - `js/estimate-form.js` — estimate form validation and sending
-- `images/`, `fonts/` — photos, logo, favicon, share image, web fonts
+- `images/`, `fonts/` — photos (pages use the `.webp` versions; the `.jpg` originals are kept, and `og-image.jpg` is the share image), logo, favicon, web fonts
 - `robots.txt`, `sitemap.xml` — for search engines; both assume https://yeshuacm.com
 
 When CSS or JS changes, bump the `?v=` number on its link in each page so
@@ -29,6 +33,9 @@ returning visitors get the new file.
 - [ ] Deploy to a host and point yeshuacm.com at it (keep the domain's MX/email records unchanged)
 - [ ] Confirm HTTPS works on yeshuacm.com and www.yeshuacm.com
 - [ ] Google Search Console: verify the domain and submit `sitemap.xml`
+- [ ] In Search Console, use URL Inspection → Request Indexing on the home page and the service pages
+- [ ] Set up a Google Business Profile as a service-area business (Philadelphia, Bucks, Montgomery, Delaware, Chester), hiding the mailing address
+- [ ] Jimmy confirms the service area and the FAQ answers on each service page
 - [ ] Activate the form: send a test request, Jimmy clicks *Activate Form* in the FormSubmit email
 - [ ] Send one more test and confirm it reaches Jimmy's inbox
 - [ ] Update the privacy policy's effective date to the launch date if it changed
