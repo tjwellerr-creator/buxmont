@@ -613,3 +613,15 @@
   .area-band p{margin-top:.9rem;color:var(--steel);font-size:var(--fs-lead);}
   .svc-more{display:inline-block;margin-top:1.2rem;}
   .hero-license .dash{width:1.6rem;height:2px;border-radius:2px;background:currentColor;flex:none;}
+  .area-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.2vw,1.6rem);}
+  @media (max-width:900px){.area-cards{grid-template-columns:1fr;}}
+  .area-card-title{margin-top:.5rem;font-size:var(--fs-h3);}
+  .area-svc-list{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);}
+  @media (max-width:560px){.area-svc-list{grid-template-columns:1fr;}}
+  .area-svc-list li{border-bottom:1px solid var(--line);}
+  .area-svc-list a{display:block;padding:1rem 0;font-weight:600;}
+  .area-svc-list a:hover{color:var(--brick);}
+  .area-list a{display:block;}
+  .area-list li:has(a){padding:0;}
+  .area-list li a{padding:.55rem 1rem;}
+  .area-list li a:hover{color:var(--brick);}
